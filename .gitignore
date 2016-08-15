@@ -1,0 +1,9 @@
+#I want to ignore project files of IntelliJ#
+*.iml
+.idea/*
+
+#####################
+
+#plus I want to ignore file with class files#
+
+out/*
