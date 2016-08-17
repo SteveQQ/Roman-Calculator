@@ -7,8 +7,10 @@ import java.awt.*;
  */
 public class GUI {
     private JFrame frame;
-    private JPanel textAreaWrapPanel, gridWrapPanel;
+    private JPanel textAreaWrapPanel, gridWrapPanel, eqWrapPanel;
     public static JTextArea numberArea;
+    private JButton Ibutton, Vbutton, Xbutton, Lbutton, Cbutton, Dbutton, Mbutton,
+                    plusButton, subButton, multButton, divButton, backButton, eqButton;
     private JMenuBar menuBar;
     private JMenu viewMenu;
 
@@ -25,27 +27,50 @@ public class GUI {
         numberArea = new JTextArea();
         numberArea.setBorder(BorderFactory.createLoweredBevelBorder());
         numberArea.setFont(new Font("monospace", 0, 16));
+        numberArea.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+
+        Ibutton = new JButton("I");
+        Vbutton = new JButton("V");
+        Xbutton = new JButton("X");
+        Lbutton = new JButton("L");
+        Cbutton = new JButton("C");
+        Dbutton = new JButton("D");
+        Mbutton = new JButton("M");
+        plusButton = new JButton("+");
+        subButton = new JButton("-");
+        multButton = new JButton("*");
+        divButton = new JButton("/");
+        eqButton = new JButton("=");
+        backButton = new JButton("<<<");
+
 
         gridWrapPanel = new JPanel();
         gridWrapPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        gridWrapPanel.setLayout(new GridLayout(3, 4, 5, 5));
-        gridWrapPanel.add(new JButton("I"));
-        gridWrapPanel.add(new JButton("V"));
-        gridWrapPanel.add(new JButton("X"));
-        gridWrapPanel.add(new JButton("L"));
-        gridWrapPanel.add(new JButton("C"));
-        gridWrapPanel.add(new JButton("D"));
-        gridWrapPanel.add(new JButton("M"));
-        gridWrapPanel.add(new JButton("="));
-        gridWrapPanel.add(new JButton("/"));
-        gridWrapPanel.add(new JButton("*"));
-        gridWrapPanel.add(new JButton("+"));
-        gridWrapPanel.add(new JButton("-"));
+        gridWrapPanel.setLayout(new GridLayout(4, 3, 5, 5));
+        gridWrapPanel.add(Ibutton);
+        gridWrapPanel.add(Vbutton);
+        gridWrapPanel.add(Xbutton);
+        gridWrapPanel.add(Lbutton);
+        gridWrapPanel.add(Cbutton);
+        gridWrapPanel.add(Dbutton);
+        gridWrapPanel.add(plusButton);
+        gridWrapPanel.add(Mbutton);
+        gridWrapPanel.add(multButton);
+        gridWrapPanel.add(subButton);
+        gridWrapPanel.add(backButton);
+        gridWrapPanel.add(divButton);
+
+        eqWrapPanel = new JPanel();
+        eqWrapPanel.setLayout(new BorderLayout());
+        eqWrapPanel.add(eqButton);
+        eqWrapPanel.setBorder(new EmptyBorder(0, 5, 5, 5));
+        frame.add(BorderLayout.SOUTH, eqWrapPanel);
 
         menuBar.add(viewMenu);
         frame.setJMenuBar(menuBar);
         textAreaWrapPanel.add(numberArea);
         frame.add(BorderLayout.CENTER, gridWrapPanel);
+
 
         frame.getContentPane().add(BorderLayout.NORTH, textAreaWrapPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
