@@ -3,6 +3,7 @@ package com.steveqq.gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * Created by SteveQ on 2016-08-15.
@@ -31,7 +32,7 @@ public class GUI {
         numberArea.setFont(new Font("monospace", 0, 16));
         numberArea.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
 
-        Ibutton = new JButton("I");
+        /*Ibutton = new JButton("I");
         Vbutton = new JButton("V");
         Xbutton = new JButton("X");
         Lbutton = new JButton("L");
@@ -43,28 +44,28 @@ public class GUI {
         multButton = new JButton("*");
         divButton = new JButton("/");
         eqButton = new JButton("=");
-        backButton = new JButton("<<<");
+        backButton = new JButton("<<<");*/
 
 
         gridWrapPanel = new JPanel();
         gridWrapPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         gridWrapPanel.setLayout(new GridLayout(4, 3, 5, 5));
-        gridWrapPanel.add(Ibutton);
-        gridWrapPanel.add(Vbutton);
-        gridWrapPanel.add(Xbutton);
-        gridWrapPanel.add(Lbutton);
-        gridWrapPanel.add(Cbutton);
-        gridWrapPanel.add(Dbutton);
-        gridWrapPanel.add(plusButton);
-        gridWrapPanel.add(Mbutton);
-        gridWrapPanel.add(multButton);
-        gridWrapPanel.add(subButton);
-        gridWrapPanel.add(backButton);
-        gridWrapPanel.add(divButton);
+        gridWrapPanel.add(buildButton(Ibutton, "I", new ButtonClicker().new Iclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "V", new ButtonClicker().new Vclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "X", new ButtonClicker().new Xclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "L", new ButtonClicker().new Lclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "C", new ButtonClicker().new Cclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "D", new ButtonClicker().new Dclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "+", new ButtonClicker().new Plusclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "M", new ButtonClicker().new Mclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "*", new ButtonClicker().new Multclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "-", new ButtonClicker().new Subclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "<<<", new ButtonClicker().new Backclick()));
+        gridWrapPanel.add(buildButton(Ibutton, "/", new ButtonClicker().new Divclick()));
 
         eqWrapPanel = new JPanel();
         eqWrapPanel.setLayout(new BorderLayout());
-        eqWrapPanel.add(eqButton);
+        eqWrapPanel.add(buildButton(Ibutton, "=", new ButtonClicker().new Eqclick()));
         eqWrapPanel.setBorder(new EmptyBorder(0, 5, 5, 5));
         frame.add(BorderLayout.SOUTH, eqWrapPanel);
 
@@ -80,5 +81,11 @@ public class GUI {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public static JButton buildButton(JButton ref, String name, ActionListener actionListener){
+        ref = new JButton(name);
+        ref.addActionListener(actionListener);
+        return ref;
     }
 }
