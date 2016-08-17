@@ -1,5 +1,8 @@
 package com.steveqq.gui;
 
+import com.steveqq.operations.MathOperations;
+import com.steveqq.parse.RomanParser;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,6 +10,8 @@ import java.awt.event.ActionListener;
  * Created by SteveQ on 2016-08-17.
  */
 public class ButtonClicker {
+    RomanParser romanParser = new RomanParser();
+    MathOperations mathOperations = new MathOperations();
     class Iclick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
@@ -52,7 +57,10 @@ public class ButtonClicker {
     class Plusclick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            GUI.numberArea.append("+");
+            romanParser.romanToDecimal(GUI.numberArea.getText().toString());
+            mathOperations.addElementsToCount(romanParser.romanToDecimal(GUI.numberArea.getText().toString()));
+            mathOperations.addOperationSymbols('+');
+            GUI.numberArea.setText("");
         }
     }
 
@@ -66,14 +74,14 @@ public class ButtonClicker {
     class Multclick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            GUI.numberArea.append("*");
+            romanParser.romanToDecimal(GUI.numberArea.getText().toString());
         }
     }
 
     class Subclick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            GUI.numberArea.append("-");
+            romanParser.romanToDecimal(GUI.numberArea.getText().toString());
         }
     }
 
@@ -90,14 +98,14 @@ public class ButtonClicker {
     class Divclick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            GUI.numberArea.append("/");
+            romanParser.romanToDecimal(GUI.numberArea.getText().toString());
         }
     }
 
     class Eqclick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            GUI.numberArea.append("=");
+            mathOperations.doMath(mathOperations.getElementsToCount(), mathOperations.getOperationSymbols());
         }
     }
 }
