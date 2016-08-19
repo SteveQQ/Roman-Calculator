@@ -27,5 +27,6 @@ public class RomanParserTester {
         Integer result = romanParser.romanToDecimal("MCCCXXXVIII");
         System.out.println(result);
 
+        System.out.println(romanParser.decimalToRoman(3948));
     }
 }
