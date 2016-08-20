@@ -12,10 +12,13 @@ public class GUI {
     private JFrame frame;
     private JPanel textAreaWrapPanel, gridWrapPanel, eqWrapPanel;
     public static JTextArea numberArea;
-    private JButton Ibutton, Vbutton, Xbutton, Lbutton, Cbutton, Dbutton, Mbutton,
+    public static JButton Ibutton, Vbutton, Xbutton, Lbutton, Cbutton, Dbutton, Mbutton,
                     plusButton, subButton, multButton, divButton, backButton, eqButton;
     private JMenuBar menuBar;
     private JMenu viewMenu;
+    private ButtonClicker buttonClicker;
+
+
 
     public void createGUI(){
         frame = new JFrame("Roman Calculator");
@@ -31,41 +34,59 @@ public class GUI {
         numberArea.setBorder(BorderFactory.createLoweredBevelBorder());
         numberArea.setFont(new Font("monospace", 0, 16));
         numberArea.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        numberArea.setEditable(false);
 
-        /*Ibutton = new JButton("I");
+        gridWrapPanel = new JPanel();
+        gridWrapPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        gridWrapPanel.setLayout(new GridLayout(4, 3, 5, 5));
+
+
+        Ibutton = new JButton("I");
         Vbutton = new JButton("V");
         Xbutton = new JButton("X");
         Lbutton = new JButton("L");
         Cbutton = new JButton("C");
         Dbutton = new JButton("D");
-        Mbutton = new JButton("M");
         plusButton = new JButton("+");
-        subButton = new JButton("-");
+        Mbutton = new JButton("M");
         multButton = new JButton("*");
+        subButton = new JButton("-");
+        backButton = new JButton("<<<");
         divButton = new JButton("/");
         eqButton = new JButton("=");
-        backButton = new JButton("<<<");*/
 
+        buttonClicker = new ButtonClicker();
 
-        gridWrapPanel = new JPanel();
-        gridWrapPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        gridWrapPanel.setLayout(new GridLayout(4, 3, 5, 5));
-        gridWrapPanel.add(buildButton(Ibutton, "I", new ButtonClicker().new Iclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "V", new ButtonClicker().new Vclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "X", new ButtonClicker().new Xclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "L", new ButtonClicker().new Lclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "C", new ButtonClicker().new Cclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "D", new ButtonClicker().new Dclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "+", new ButtonClicker().new Plusclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "M", new ButtonClicker().new Mclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "*", new ButtonClicker().new Multclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "-", new ButtonClicker().new Subclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "<<<", new ButtonClicker().new Backclick()));
-        gridWrapPanel.add(buildButton(Ibutton, "/", new ButtonClicker().new Divclick()));
+        Ibutton.addActionListener(buttonClicker.new Iclick());
+        Vbutton.addActionListener(buttonClicker.new Vclick());
+        Xbutton.addActionListener(buttonClicker.new Xclick());
+        Lbutton.addActionListener(buttonClicker.new Lclick());
+        Cbutton.addActionListener(buttonClicker.new Cclick());
+        Dbutton.addActionListener(buttonClicker.new Dclick());
+        plusButton.addActionListener(buttonClicker.new Plusclick());
+        Mbutton.addActionListener(buttonClicker.new Mclick());
+        multButton.addActionListener(buttonClicker.new Multclick());
+        subButton.addActionListener(buttonClicker.new Subclick());
+        backButton.addActionListener(buttonClicker.new Backclick());
+        divButton.addActionListener(buttonClicker.new Divclick());
+        eqButton.addActionListener(buttonClicker.new Eqclick());
+
+        gridWrapPanel.add(Ibutton);
+        gridWrapPanel.add(Vbutton);
+        gridWrapPanel.add(Xbutton);
+        gridWrapPanel.add(Lbutton);
+        gridWrapPanel.add(Cbutton);
+        gridWrapPanel.add(Dbutton);
+        gridWrapPanel.add(plusButton);
+        gridWrapPanel.add(Mbutton);
+        gridWrapPanel.add(multButton);
+        gridWrapPanel.add(subButton);
+        gridWrapPanel.add(backButton);
+        gridWrapPanel.add(divButton);
 
         eqWrapPanel = new JPanel();
         eqWrapPanel.setLayout(new BorderLayout());
-        eqWrapPanel.add(buildButton(Ibutton, "=", new ButtonClicker().new Eqclick()));
+        eqWrapPanel.add(eqButton);
         eqWrapPanel.setBorder(new EmptyBorder(0, 5, 5, 5));
         frame.add(BorderLayout.SOUTH, eqWrapPanel);
 
@@ -83,9 +104,4 @@ public class GUI {
         frame.setVisible(true);
     }
 
-    public static JButton buildButton(JButton ref, String name, ActionListener actionListener){
-        ref = new JButton(name);
-        ref.addActionListener(actionListener);
-        return ref;
-    }
 }
