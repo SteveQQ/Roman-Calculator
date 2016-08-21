@@ -8,11 +8,11 @@ import java.awt.*;
  * Created by SteveQ on 2016-08-15.
  */
 public class GUI {
-    private JFrame frame;
-    private JPanel textAreaWrapPanel, gridWrapPanel, eqWrapPanel;
-    public static JTextArea numberArea;
-    public static JButton iButton, vButton, xButton, lButton, cButton, dButton, mButton,
-                    plusButton, subButton, mulButton, divButton, backButton, eqButton;
+    protected static JFrame frame;
+    private JPanel textAreaWrapPanel, gridWrapPanel, eqWrapPanel, cleanWrapPanel, southButtonsWrapper;
+    protected static JTextArea numberArea;
+    protected static JButton iButton, vButton, xButton, lButton, cButton, dButton, mButton,
+                    plusButton, subButton, mulButton, divButton, backButton, eqButton, cleanButton;
     private JMenuBar menuBar;
     private JMenu viewMenu;
     private ButtonClicker buttonClicker;
@@ -29,6 +29,7 @@ public class GUI {
     private ButtonClicker.backClick backClicker;
     private ButtonClicker.divClick divClicker;
     private ButtonClicker.eqClick eqClicker;
+    private ButtonClicker.cleanClick cleanClicker;
 
     public GUI(){
 
@@ -36,6 +37,9 @@ public class GUI {
 
         textAreaWrapPanel = new JPanel();
         gridWrapPanel = new JPanel();
+        cleanWrapPanel = new JPanel();
+        eqWrapPanel = new JPanel();
+        southButtonsWrapper = new JPanel();
 
         numberArea = new JTextArea();
 
@@ -52,6 +56,7 @@ public class GUI {
         backButton = new JButton("<<<");
         divButton = new JButton("/");
         eqButton = new JButton("=");
+        cleanButton = new JButton("CLEAN");
 
         menuBar = new JMenuBar();
         viewMenu = new JMenu("View");
@@ -70,6 +75,7 @@ public class GUI {
         backClicker = buttonClicker.new backClick();
         divClicker = buttonClicker.new divClick();
         eqClicker = buttonClicker.new eqClick();
+        cleanClicker = buttonClicker.new cleanClick();
     }
 
     public void createGUI(){
@@ -85,6 +91,8 @@ public class GUI {
         gridWrapPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         gridWrapPanel.setLayout(new GridLayout(4, 3, 5, 5));
 
+        southButtonsWrapper.setLayout(new BoxLayout(southButtonsWrapper, BoxLayout.Y_AXIS));
+
         iButton.addActionListener(iClicker);
         vButton.addActionListener(vClicker);
         xButton.addActionListener(xClicker);
@@ -98,6 +106,7 @@ public class GUI {
         backButton.addActionListener(backClicker);
         divButton.addActionListener(divClicker);
         eqButton.addActionListener(eqClicker);
+        cleanButton.addActionListener(cleanClicker);
 
         gridWrapPanel.add(iButton);
         gridWrapPanel.add(vButton);
@@ -112,11 +121,16 @@ public class GUI {
         gridWrapPanel.add(backButton);
         gridWrapPanel.add(divButton);
 
-        eqWrapPanel = new JPanel();
         eqWrapPanel.setLayout(new BorderLayout());
         eqWrapPanel.add(eqButton);
         eqWrapPanel.setBorder(new EmptyBorder(0, 5, 5, 5));
-        frame.add(BorderLayout.SOUTH, eqWrapPanel);
+        cleanWrapPanel.setLayout(new BorderLayout());
+        cleanWrapPanel.add(cleanButton);
+        cleanWrapPanel.setBorder(new EmptyBorder(0, 5, 5, 5));
+
+        southButtonsWrapper.add(eqWrapPanel);
+        southButtonsWrapper.add(cleanWrapPanel);
+        frame.add(BorderLayout.SOUTH, southButtonsWrapper);
 
         menuBar.add(viewMenu);
         frame.setJMenuBar(menuBar);
@@ -126,7 +140,7 @@ public class GUI {
 
         frame.getContentPane().add(BorderLayout.NORTH, textAreaWrapPanel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(250, 250);
+        frame.setSize(250, 300);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

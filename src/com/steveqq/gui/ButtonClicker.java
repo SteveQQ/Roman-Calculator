@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -160,10 +159,27 @@ public class ButtonClicker {
         @Override
         public void actionPerformed(ActionEvent ev){
             registerOperationSet();
-            if(MathOperations.elementsToCount.size() >= 2) {
-                GUI.numberArea.setText(romanParser.decimalToRoman(MathOperations.doMath()));
-                MathOperations.clearOperationData();
+            if(MathOperations.elementsToCount.size() >= 2 && MathOperations.operationSymbols.size() >= 1) {
+                try {
+                    GUI.numberArea.setText(romanParser.decimalToRoman(MathOperations.doMath()));
+                    MathOperations.clearOperationData();
+                } catch(IllegalArgumentException iae){
+                    JOptionPane.showMessageDialog(GUI.frame,
+                            "Result would be < 1, change second argument",
+                            "WARNING",
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
+            MathOperations.clearOperationData();
+            cleanCounters();
+        }
+    }
+
+    class cleanClick implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ev){
+            GUI.numberArea.setText("");
+            MathOperations.clearOperationData();
             cleanCounters();
         }
     }
