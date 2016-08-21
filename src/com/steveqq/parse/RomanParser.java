@@ -10,7 +10,7 @@ public class RomanParser {
     private Map<Character, Integer> romanValues;
     private Map<Integer, String> toRomanMap;
     public RomanParser(){
-        romanValues = new HashMap<Character, Integer>();
+        romanValues = new HashMap<>();
         romanValues.put('I', 1);
         romanValues.put('V', 5);
         romanValues.put('X', 10);
@@ -19,7 +19,7 @@ public class RomanParser {
         romanValues.put('D', 500);
         romanValues.put('M', 1000);
 
-        toRomanMap = new TreeMap<Integer, String>(Collections.reverseOrder());
+        toRomanMap = new TreeMap<>(Collections.reverseOrder());
         toRomanMap.put(1000, "M");
         toRomanMap.put(900, "CM");
         toRomanMap.put(500, "D");

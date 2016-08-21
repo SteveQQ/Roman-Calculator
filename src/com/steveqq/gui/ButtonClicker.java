@@ -6,8 +6,8 @@ import com.steveqq.parse.RomanParser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -16,93 +16,127 @@ import java.util.Map;
 public class ButtonClicker {
     private RomanParser romanParser = new RomanParser();
     private Map<JButton, Integer> buttonMap;
+    private Integer iCounter = 0;
+    private Integer vCounter = 0;
+    private Integer xCounter = 0;
+    private Integer lCounter = 0;
+    private Integer cCounter = 0;
+    private Integer dCounter = 0;
+    private Integer mCounter = 0;
 
     public ButtonClicker(){
         buttonMap = new HashMap<>();
-        buttonMap.put(GUI.Ibutton, 1);
-        buttonMap.put(GUI.Vbutton, 5);
-        buttonMap.put(GUI.Xbutton, 10);
-        buttonMap.put(GUI.Lbutton, 50);
-        buttonMap.put(GUI.Cbutton, 100);
-        buttonMap.put(GUI.Dbutton, 500);
-        buttonMap.put(GUI.Mbutton, 1000);
+        buttonMap.put(GUI.iButton, 1);
+        buttonMap.put(GUI.vButton, 5);
+        buttonMap.put(GUI.xButton, 10);
+        buttonMap.put(GUI.lButton, 50);
+        buttonMap.put(GUI.cButton, 100);
+        buttonMap.put(GUI.dButton, 500);
+        buttonMap.put(GUI.mButton, 1000);
     }
 
-    class Iclick implements ActionListener {
+    private void cleanCounters(){
+        iCounter = 0;
+        vCounter = 0;
+        xCounter = 0;
+        lCounter = 0;
+        cCounter = 0;
+        dCounter = 0;
+        mCounter = 0;
+        for(Map.Entry entry : buttonMap.entrySet()) {
+            JButton disable = (JButton) entry.getKey();
+            disable.setEnabled(true);
+        }
+    }
+
+    class iClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
+            iCounter += 1;
             GUI.numberArea.append("I");
-            insertAssistant(romanParser.getRomanValues().get(ev.getActionCommand().charAt(0)));
+            insertAssistant(GUI.iButton);
         }
     }
 
-    class Vclick implements ActionListener {
+    class vClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
+            vCounter += 1;
             GUI.numberArea.append("V");
-            GUI.Vbutton.setEnabled(false);
+            insertAssistant(GUI.vButton);
         }
     }
 
-    class Xclick implements ActionListener {
+    class xClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
+            xCounter += 1;
             GUI.numberArea.append("X");
+            insertAssistant(GUI.xButton);
         }
     }
 
-    class Lclick implements ActionListener {
+    class lClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
+            lCounter += 1;
             GUI.numberArea.append("L");
-            GUI.Lbutton.setEnabled(false);
+            insertAssistant(GUI.lButton);
         }
     }
 
-    class Cclick implements ActionListener {
+    class cClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
+            cCounter += 1;
             GUI.numberArea.append("C");
+            insertAssistant(GUI.cButton);
         }
     }
 
-    class Dclick implements ActionListener {
+    class dClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
+            dCounter += 1;
             GUI.numberArea.append("D");
-            insertAssistant(romanParser.getRomanValues().get(ev.getActionCommand().charAt(0)));
+            insertAssistant(GUI.dButton);
         }
     }
 
-    class Plusclick implements ActionListener {
+    class plusClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
             registerOperationSet('+');
+            cleanCounters();
         }
     }
 
-    class Mclick implements ActionListener {
+    class mClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
+            mCounter += 1;
             GUI.numberArea.append("M");
+            insertAssistant(GUI.mButton);
         }
     }
 
-    class Multclick implements ActionListener {
+    class mulClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
             registerOperationSet('*');
+            cleanCounters();
         }
     }
 
-    class Subclick implements ActionListener {
+    class subClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
             registerOperationSet('-');
+            cleanCounters();
         }
     }
 
-    class Backclick implements ActionListener {
+    class backClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
             String fullString = GUI.numberArea.getText().toString();
@@ -114,14 +148,15 @@ public class ButtonClicker {
         }
     }
 
-    class Divclick implements ActionListener {
+    class divClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
             registerOperationSet('/');
+            cleanCounters();
         }
     }
 
-    class Eqclick implements ActionListener {
+    class eqClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
             registerOperationSet();
@@ -129,6 +164,7 @@ public class ButtonClicker {
                 GUI.numberArea.setText(romanParser.decimalToRoman(MathOperations.doMath()));
                 MathOperations.clearOperationData();
             }
+            cleanCounters();
         }
     }
 
@@ -149,11 +185,60 @@ public class ButtonClicker {
         }
     }
 
-    private void insertAssistant(Integer button){
-        for(Map.Entry entry : buttonMap.entrySet()){
-            if(button < (Integer)entry.getValue()){
-                JButton disable = (JButton)entry.getKey();
-                disable.setEnabled(false);
+    private void insertAssistant(JButton button){
+        if(mCounter == 3){
+            GUI.mButton.setEnabled(false);
+        }
+        if(cCounter == 3){
+            GUI.cButton.setEnabled(false);
+        }
+        if(xCounter == 3){
+            GUI.xButton.setEnabled(false);
+        }
+        if(iCounter == 3){
+            GUI.iButton.setEnabled(false);
+        }
+        if(vCounter == 1){
+            GUI.vButton.setEnabled(false);
+        }
+        if(lCounter == 1){
+            GUI.lButton.setEnabled(false);
+        }
+        if(dCounter == 1){
+            GUI.dButton.setEnabled(false);
+        }
+
+        for(Map.Entry entry : buttonMap.entrySet()) {
+            if(buttonMap.get(button) == 5 || buttonMap.get(button) == 50
+                    || buttonMap.get(button) == 500) {
+                if (buttonMap.get(button) < (Integer) entry.getValue()) {
+                    JButton disable = (JButton) entry.getKey();
+                    disable.setEnabled(false);
+                }
+            }
+            if(buttonMap.get(button) == 1) {
+                if (10 < (Integer) entry.getValue()) {
+                    JButton disable = (JButton) entry.getKey();
+                    disable.setEnabled(false);
+                }
+                if(iCounter == 2){
+                    if (buttonMap.get(button) < (Integer) entry.getValue()) {
+                        JButton disable = (JButton) entry.getKey();
+                        disable.setEnabled(false);
+                    }
+                }
+            }
+            if(buttonMap.get(button) == 10) {
+                if (100 < (Integer) entry.getValue()) {
+                    JButton disable = (JButton) entry.getKey();
+                    disable.setEnabled(false);
+                }
+                if(xCounter == 2){
+                    if (buttonMap.get(button) < (Integer) entry.getValue()) {
+                        JButton disable = (JButton) entry.getKey();
+                        disable.setEnabled(false);
+                    }
+                }
             }
         }
     }
