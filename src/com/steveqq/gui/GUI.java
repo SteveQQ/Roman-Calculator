@@ -44,13 +44,20 @@ public class GUI {
         numberArea = new JTextArea();
 
         iButton = new JButton("I");
+        iButton.setToolTipText("1");
         vButton = new JButton("V");
+        vButton.setToolTipText("5");
         xButton = new JButton("X");
+        xButton.setToolTipText("10");
         lButton = new JButton("L");
+        lButton.setToolTipText("50");
         cButton = new JButton("C");
+        cButton.setToolTipText("100");
         dButton = new JButton("D");
+        dButton.setToolTipText("500");
         plusButton = new JButton("+");
         mButton = new JButton("M");
+        mButton.setToolTipText("1000");
         mulButton = new JButton("*");
         subButton = new JButton("-");
         backButton = new JButton("<<<");

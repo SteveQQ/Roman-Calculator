@@ -23,7 +23,7 @@ public class ButtonClicker {
     private Integer dCounter = 0;
     private Integer mCounter = 0;
 
-    public ButtonClicker(){
+    protected ButtonClicker(){
         buttonMap = new HashMap<>();
         buttonMap.put(GUI.iButton, 1);
         buttonMap.put(GUI.vButton, 5);
@@ -202,58 +202,55 @@ public class ButtonClicker {
     }
 
     private void insertAssistant(JButton button){
-        if(mCounter == 3){
-            GUI.mButton.setEnabled(false);
-        }
-        if(cCounter == 3){
-            GUI.cButton.setEnabled(false);
-        }
-        if(xCounter == 3){
-            GUI.xButton.setEnabled(false);
-        }
-        if(iCounter == 3){
-            GUI.iButton.setEnabled(false);
-        }
-        if(vCounter == 1){
-            GUI.vButton.setEnabled(false);
-        }
-        if(lCounter == 1){
-            GUI.lButton.setEnabled(false);
-        }
-        if(dCounter == 1){
-            GUI.dButton.setEnabled(false);
+        if(mCounter == 3 || cCounter == 3 || xCounter == 3 || iCounter == 3){
+            button.setEnabled(false);
+
+        } else if(vCounter == 1 || lCounter == 1 || dCounter == 1){
+            button.setEnabled(false);
         }
 
         for(Map.Entry entry : buttonMap.entrySet()) {
-            if(buttonMap.get(button) == 5 || buttonMap.get(button) == 50
-                    || buttonMap.get(button) == 500) {
-                if (buttonMap.get(button) < (Integer) entry.getValue()) {
-                    JButton disable = (JButton) entry.getKey();
-                    disable.setEnabled(false);
-                }
-            }
-            if(buttonMap.get(button) == 1) {
-                if (10 < (Integer) entry.getValue()) {
-                    JButton disable = (JButton) entry.getKey();
-                    disable.setEnabled(false);
-                }
-                if(iCounter == 2){
-                    if (buttonMap.get(button) < (Integer) entry.getValue()) {
-                        JButton disable = (JButton) entry.getKey();
-                        disable.setEnabled(false);
-                    }
-                }
-            }
-            if(buttonMap.get(button) == 10) {
-                if (100 < (Integer) entry.getValue()) {
-                    JButton disable = (JButton) entry.getKey();
-                    disable.setEnabled(false);
-                }
-                if(xCounter == 2){
-                    if (buttonMap.get(button) < (Integer) entry.getValue()) {
-                        JButton disable = (JButton) entry.getKey();
-                        disable.setEnabled(false);
-                    }
+            if((Integer)entry.getValue() > buttonMap.get(button)){
+                switch(buttonMap.get(button)){
+                    case 1:
+                        if(iCounter < 2){
+                            if((Integer)entry.getValue() > 10){
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        } else {
+                            if ((Integer) entry.getValue() > buttonMap.get(button)) {
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        }
+                        break;
+                    case 10:
+                        if(xCounter < 2){
+                            if((Integer)entry.getValue() > 100){
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        } else {
+                            if ((Integer) entry.getValue() > buttonMap.get(button)) {
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        }
+                        break;
+                    case 100:
+                        break;
+                    case 5:
+                    case 50:
+                    case 500:
+                        if ((Integer) entry.getValue() > buttonMap.get(button)) {
+                            JButton disable = (JButton) entry.getKey();
+                            disable.setEnabled(false);
+                        }
+                        break;
+                    default:
+                        break;
+
                 }
             }
         }
