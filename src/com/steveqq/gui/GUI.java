@@ -3,6 +3,9 @@ package com.steveqq.gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by SteveQ on 2016-08-15.
@@ -10,54 +13,39 @@ import java.awt.*;
 public class GUI {
     protected static JFrame frame;
     private JPanel textAreaWrapPanel, gridWrapPanel, eqWrapPanel, cleanWrapPanel, southButtonsWrapper;
-    protected static JTextArea numberArea;
-    protected static JButton iButton, vButton, xButton, lButton, cButton, dButton, mButton,
+    protected JTextArea numberArea;
+    protected JButton iButton, vButton, xButton, lButton, cButton, dButton, mButton,
                     plusButton, subButton, mulButton, divButton, backButton, eqButton, cleanButton;
     private JMenuBar menuBar;
     private JMenu viewMenu;
     private ButtonClicker buttonClicker;
-    private ButtonClicker.iClick iClicker;
-    private ButtonClicker.vClick vClicker;
-    private ButtonClicker.xClick xClicker;
-    private ButtonClicker.lClick lClicker;
-    private ButtonClicker.cClick cClicker;
-    private ButtonClicker.dClick dClicker;
-    private ButtonClicker.plusClick plusClicker;
-    private ButtonClicker.mClick mClicker;
-    private ButtonClicker.mulClick mulClicker;
-    private ButtonClicker.subClick subClicker;
-    private ButtonClicker.backClick backClicker;
-    private ButtonClicker.divClick divClicker;
-    private ButtonClicker.eqClick eqClicker;
-    private ButtonClicker.cleanClick cleanClicker;
+    public ArrayList<JButton> buttonList;
+    public Map<JButton, Integer> buttonMap;
 
     public GUI(){
 
         frame = new JFrame("Roman Calculator");
+        buttonClicker = new ButtonClicker(this);
+        buttonList = new ArrayList<>();
 
+        //-----CREATING PANELS-----//
         textAreaWrapPanel = new JPanel();
         gridWrapPanel = new JPanel();
         cleanWrapPanel = new JPanel();
         eqWrapPanel = new JPanel();
         southButtonsWrapper = new JPanel();
+        //-----CREATING PANELS-----//
 
-        numberArea = new JTextArea();
 
+        //-----CREATING BUTTONS-----//
         iButton = new JButton("I");
-        iButton.setToolTipText("1");
         vButton = new JButton("V");
-        vButton.setToolTipText("5");
         xButton = new JButton("X");
-        xButton.setToolTipText("10");
         lButton = new JButton("L");
-        lButton.setToolTipText("50");
         cButton = new JButton("C");
-        cButton.setToolTipText("100");
         dButton = new JButton("D");
-        dButton.setToolTipText("500");
         plusButton = new JButton("+");
         mButton = new JButton("M");
-        mButton.setToolTipText("1000");
         mulButton = new JButton("*");
         subButton = new JButton("-");
         backButton = new JButton("<<<");
@@ -65,25 +53,49 @@ public class GUI {
         eqButton = new JButton("=");
         cleanButton = new JButton("CLEAN");
 
+        buttonList.add(iButton);
+        buttonList.add(vButton);
+        buttonList.add(xButton);
+        buttonList.add(lButton);
+        buttonList.add(cButton);
+        buttonList.add(dButton);
+        buttonList.add(mButton);
+
+        iButton.addActionListener(buttonClicker.iClicker);
+        vButton.addActionListener(buttonClicker.vClicker);
+        xButton.addActionListener(buttonClicker.xClicker);
+        lButton.addActionListener(buttonClicker.lClicker);
+        cButton.addActionListener(buttonClicker.cClicker);
+        dButton.addActionListener(buttonClicker.dClicker);
+        /*plusButton.addActionListener(buttonClicker.plusClicker);
+        mButton.addActionListener(buttonClicker.mClicker);
+        mulButton.addActionListener(buttonClicker.mulClicker);
+        subButton.addActionListener(buttonClicker.subClicker);
+        backButton.addActionListener(buttonClicker.backClicker);
+        divButton.addActionListener(buttonClicker.divClicker);
+        eqButton.addActionListener(buttonClicker.eqClicker);
+        cleanButton.addActionListener(buttonClicker.cleanClicker);*/
+
+        iButton.setToolTipText("1");
+        vButton.setToolTipText("5");
+        xButton.setToolTipText("10");
+        lButton.setToolTipText("50");
+        cButton.setToolTipText("100");
+        dButton.setToolTipText("500");
+        mButton.setToolTipText("1000");
+        //-----CREATING BUTTONS------//
+
+
+        //-----CREATING MENU BAR-----//
         menuBar = new JMenuBar();
         viewMenu = new JMenu("View");
+        //-----CREATING MENU BAR-----//
 
-        buttonClicker = new ButtonClicker();
-        iClicker = buttonClicker.new iClick();
-        vClicker = buttonClicker.new vClick();
-        xClicker = buttonClicker.new xClick();
-        lClicker = buttonClicker.new lClick();
-        cClicker = buttonClicker.new cClick();
-        dClicker = buttonClicker.new dClick();
-        plusClicker = buttonClicker.new plusClick();
-        mClicker = buttonClicker.new mClick();
-        mulClicker = buttonClicker.new mulClick();
-        subClicker = buttonClicker.new subClick();
-        backClicker = buttonClicker.new backClick();
-        divClicker = buttonClicker.new divClick();
-        eqClicker = buttonClicker.new eqClick();
-        cleanClicker = buttonClicker.new cleanClick();
+        numberArea = new JTextArea();
+        buttonMap = new HashMap<>();
+
     }
+
 
     public void createGUI(){
 
@@ -99,21 +111,6 @@ public class GUI {
         gridWrapPanel.setLayout(new GridLayout(4, 3, 5, 5));
 
         southButtonsWrapper.setLayout(new BoxLayout(southButtonsWrapper, BoxLayout.Y_AXIS));
-
-        iButton.addActionListener(iClicker);
-        vButton.addActionListener(vClicker);
-        xButton.addActionListener(xClicker);
-        lButton.addActionListener(lClicker);
-        cButton.addActionListener(cClicker);
-        dButton.addActionListener(dClicker);
-        plusButton.addActionListener(plusClicker);
-        mButton.addActionListener(mClicker);
-        mulButton.addActionListener(mulClicker);
-        subButton.addActionListener(subClicker);
-        backButton.addActionListener(backClicker);
-        divButton.addActionListener(divClicker);
-        eqButton.addActionListener(eqClicker);
-        cleanButton.addActionListener(cleanClicker);
 
         gridWrapPanel.add(iButton);
         gridWrapPanel.add(vButton);
@@ -153,4 +150,81 @@ public class GUI {
         frame.setVisible(true);
     }
 
+    public void createButtonMap(){
+        for(int i=0; i < buttonList.size(); i++) {
+            if((i+1) % 2 == 1){
+                buttonMap.put(buttonList.get(i), (int)(1 * Math.pow(10, (i/2))));
+            } else {
+                buttonMap.put(buttonList.get(i), (int)(5 * Math.pow(10, i - ((i+1)/2))));
+            }
+        }
+    }
+
+    /*private void resetCalculator(){
+        buttonClicker.iCounter = 0;
+        buttonClicker.vCounter = 0;
+        buttonClicker.xCounter = 0;
+        buttonClicker.lCounter = 0;
+        buttonClicker.cCounter = 0;
+        buttonClicker.dCounter = 0;
+        buttonClicker.mCounter = 0;
+        for(Map.Entry entry : buttonMap.entrySet()) {
+            JButton disable = (JButton) entry.getKey();
+            disable.setEnabled(true);
+        }
+    }
+    private void insertAssistant(JButton button){
+        if(mCounter == 3 || cCounter == 3 || xCounter == 3 || iCounter == 3){
+            button.setEnabled(false);
+
+        } else if(vCounter == 1 || lCounter == 1 || dCounter == 1){
+            button.setEnabled(false);
+        }
+
+        for(Map.Entry entry : buttonMap.entrySet()) {
+            if((Integer)entry.getValue() > buttonMap.get(button)){
+                switch(buttonMap.get(button)){
+                    case 1:
+                        if(iCounter < 2){
+                            if((Integer)entry.getValue() > 10){
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        } else {
+                            if ((Integer) entry.getValue() > buttonMap.get(button)) {
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        }
+                        break;
+                    case 10:
+                        if(xCounter < 2){
+                            if((Integer)entry.getValue() > 100){
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        } else {
+                            if ((Integer) entry.getValue() > buttonMap.get(button)) {
+                                JButton disable = (JButton) entry.getKey();
+                                disable.setEnabled(false);
+                            }
+                        }
+                        break;
+                    case 100:
+                        break;
+                    case 5:
+                    case 50:
+                    case 500:
+                        if ((Integer) entry.getValue() > buttonMap.get(button)) {
+                            JButton disable = (JButton) entry.getKey();
+                            disable.setEnabled(false);
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+    }*/
 }

@@ -35,10 +35,6 @@ public class RomanParser {
         toRomanMap.put(1, "I");
     }
 
-    public Map<Integer, String> getToRomanMap() {
-        return toRomanMap;
-    }
-
     public ArrayList<Character> createCharArrayList(char[] charArray){
         ArrayList<Character> result = new ArrayList<Character>();
         for(Character character : charArray) {
@@ -83,14 +79,16 @@ public class RomanParser {
         if(number == 0){
             return result;
         }
-        for(Map.Entry entry : toRomanMap.entrySet()){
-            division = number/(Integer) entry.getKey();
-            if(division >= 1) {
-                for(int i = 0; i < division; i++){
-                    result = toRomanMap.get((Integer) entry.getKey()) + result;
+        if(number > 0) {
+            for (Map.Entry entry : toRomanMap.entrySet()) {
+                division = number / (Integer) entry.getKey();
+                if (division >= 1) {
+                    for (int i = 0; i < division; i++) {
+                        result = toRomanMap.get((Integer) entry.getKey()) + result;
+                    }
+                    result = result + decimalToRoman(number % (Integer) entry.getKey());
+                    break;
                 }
-                result = result + decimalToRoman(number % (Integer) entry.getKey());
-                break;
             }
         }
         return result;

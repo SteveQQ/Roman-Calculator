@@ -6,54 +6,79 @@ import com.steveqq.parse.RomanParser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Created by SteveQ on 2016-08-17.
  */
 public class ButtonClicker {
-    private RomanParser romanParser = new RomanParser();
-    private Map<JButton, Integer> buttonMap;
-    private Integer iCounter = 0;
-    private Integer vCounter = 0;
-    private Integer xCounter = 0;
-    private Integer lCounter = 0;
-    private Integer cCounter = 0;
-    private Integer dCounter = 0;
-    private Integer mCounter = 0;
+    private RomanParser mRomanParser;
+    private MathOperations mMathOperations;
+    private ArrayList<Integer> insertedNumbers;
 
-    protected ButtonClicker(){
-        buttonMap = new HashMap<>();
-        buttonMap.put(GUI.iButton, 1);
-        buttonMap.put(GUI.vButton, 5);
-        buttonMap.put(GUI.xButton, 10);
-        buttonMap.put(GUI.lButton, 50);
-        buttonMap.put(GUI.cButton, 100);
-        buttonMap.put(GUI.dButton, 500);
-        buttonMap.put(GUI.mButton, 1000);
+    //-----GUI THAT BUTTON CLICKER OPERATES ON-----//
+    private GUI mGui;
+
+    //-----COUNTERS FOR EACH BUTTON-----//
+    protected Integer iCounter = 0;
+    protected Integer vCounter = 0;
+    protected Integer xCounter = 0;
+    protected Integer lCounter = 0;
+    protected Integer cCounter = 0;
+    protected Integer dCounter = 0;
+    protected Integer mCounter = 0;
+    //-----COUNTERS FOR EACH BUTTON-----//
+
+
+    //-----ACTION LISTENERS FOR BUTTONS-----//
+    protected iClick iClicker;
+    protected vClick vClicker;
+    protected xClick xClicker;
+    protected lClick lClicker;
+    protected cClick cClicker;
+    protected dClick dClicker;
+    /*protected plusClick plusClicker;
+    protected mClick mClicker;
+    protected mulClick mulClicker;
+    protected subClick subClicker;
+    protected backClick backClicker;
+    protected divClick divClicker;
+    protected eqClick eqClicker;
+    protected cleanClick cleanClicker;*/
+    //-----ACTION LISTENERS FOR BUTTONS-----//
+
+    public ButtonClicker(GUI gui){
+        mGui = gui;
+
+        //-----CREATE ACTION LISTENERS-----//
+        iClicker = new iClick();
+        vClicker = new vClick();
+        xClicker = new xClick();
+        lClicker = new lClick();
+        cClicker = new cClick();
+        dClicker = new dClick();
+        /*plusClicker = new plusClick();
+        mClicker = new mClick();
+        mulClicker = new mulClick();
+        subClicker = new subClick();
+        backClicker = new backClick();
+        divClicker = new divClick();
+        eqClicker = new eqClick();
+        cleanClicker = new cleanClick();*/
+        //-----CREATE ACTION LISTENERS-----//
+
+        mRomanParser = new RomanParser();
+        insertedNumbers = new ArrayList<>();
     }
 
-    private void cleanCounters(){
-        iCounter = 0;
-        vCounter = 0;
-        xCounter = 0;
-        lCounter = 0;
-        cCounter = 0;
-        dCounter = 0;
-        mCounter = 0;
-        for(Map.Entry entry : buttonMap.entrySet()) {
-            JButton disable = (JButton) entry.getKey();
-            disable.setEnabled(true);
-        }
-    }
+
+    //-----INNER CLASSES OF ACTION LISTENER----//
 
     class iClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
             iCounter += 1;
-            GUI.numberArea.append("I");
-            insertAssistant(GUI.iButton);
+            mGui.numberArea.append(ev.getActionCommand());
         }
     }
 
@@ -61,8 +86,7 @@ public class ButtonClicker {
         @Override
         public void actionPerformed(ActionEvent ev){
             vCounter += 1;
-            GUI.numberArea.append("V");
-            insertAssistant(GUI.vButton);
+            mGui.numberArea.append(ev.getActionCommand());
         }
     }
 
@@ -70,8 +94,7 @@ public class ButtonClicker {
         @Override
         public void actionPerformed(ActionEvent ev){
             xCounter += 1;
-            GUI.numberArea.append("X");
-            insertAssistant(GUI.xButton);
+            mGui.numberArea.append(ev.getActionCommand());
         }
     }
 
@@ -79,8 +102,7 @@ public class ButtonClicker {
         @Override
         public void actionPerformed(ActionEvent ev){
             lCounter += 1;
-            GUI.numberArea.append("L");
-            insertAssistant(GUI.lButton);
+            mGui.numberArea.append(ev.getActionCommand());
         }
     }
 
@@ -88,8 +110,7 @@ public class ButtonClicker {
         @Override
         public void actionPerformed(ActionEvent ev){
             cCounter += 1;
-            GUI.numberArea.append("C");
-            insertAssistant(GUI.cButton);
+            mGui.numberArea.append(ev.getActionCommand());
         }
     }
 
@@ -97,15 +118,14 @@ public class ButtonClicker {
         @Override
         public void actionPerformed(ActionEvent ev){
             dCounter += 1;
-            GUI.numberArea.append("D");
-            insertAssistant(GUI.dButton);
+            mGui.numberArea.append(ev.getActionCommand());
         }
     }
-
+/*
     class plusClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            registerOperationSet('+');
+            registerOperationData(ev.getActionCommand().charAt(0));
             cleanCounters();
         }
     }
@@ -114,15 +134,14 @@ public class ButtonClicker {
         @Override
         public void actionPerformed(ActionEvent ev){
             mCounter += 1;
-            GUI.numberArea.append("M");
-            insertAssistant(GUI.mButton);
+            mGui.numberArea.append(ev.getActionCommand());
         }
     }
 
     class mulClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            registerOperationSet('*');
+            registerOperationData(ev.getActionCommand().charAt(0));
             cleanCounters();
         }
     }
@@ -130,7 +149,7 @@ public class ButtonClicker {
     class subClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            registerOperationSet('-');
+            registerOperationData(ev.getActionCommand().charAt(0));
             cleanCounters();
         }
     }
@@ -138,9 +157,9 @@ public class ButtonClicker {
     class backClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            String fullString = GUI.numberArea.getText().toString();
+            String fullString = mGui.numberArea.getText().toString();
             if(!fullString.equals("")) {
-                String cropedString = fullString.substring(0, GUI.numberArea.getText().toString().length() - 1);
+                String cropedString = fullString.substring(0, mGui.numberArea.getText().toString().length() - 1);
                 GUI.numberArea.setText("");
                 GUI.numberArea.append(cropedString);
             }
@@ -150,7 +169,7 @@ public class ButtonClicker {
     class divClick implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ev){
-            registerOperationSet('/');
+            registerOperationData(ev.getActionCommand().charAt(0));
             cleanCounters();
         }
     }
@@ -161,7 +180,7 @@ public class ButtonClicker {
             registerOperationSet();
             if(MathOperations.elementsToCount.size() >= 2 && MathOperations.operationSymbols.size() >= 1) {
                 try {
-                    GUI.numberArea.setText(romanParser.decimalToRoman(MathOperations.doMath()));
+                    GUI.numberArea.setText(mRomanParser.decimalToRoman(MathOperations.doMath()));
                     MathOperations.clearOperationData();
                 } catch(IllegalArgumentException iae){
                     JOptionPane.showMessageDialog(GUI.frame,
@@ -184,75 +203,25 @@ public class ButtonClicker {
         }
     }
 
-    private void registerOperationSet(Character operation){
-        if(!GUI.numberArea.getText().toString().equals("")) {
-            Integer decimal = romanParser.romanToDecimal(GUI.numberArea.getText().toString());
-            MathOperations.elementsToCount.add(decimal);
-            MathOperations.operationSymbols.add(operation);
+    //-----INNER CLASSES OF ACTION LISTENER----//
+
+    private void registerOperationData(Character operationSymbol){
+        String textInArea = mGui.numberArea.getText();
+        if(!textInArea.equals("")) {
+            Integer decimalInsertion = mRomanParser.romanToDecimal(textInArea);
+            mMathOperations.addElementsToCount(decimalInsertion);
+            mMathOperations.addOperationSymbols(operationSymbol);
             GUI.numberArea.setText("");
         }
     }
 
     private void registerOperationSet(){
-        if(!GUI.numberArea.getText().toString().equals("")) {
-            Integer decimal = romanParser.romanToDecimal(GUI.numberArea.getText().toString());
+        if(!mGui.numberArea.getText().toString().equals("")) {
+            Integer decimal = mRomanParser.romanToDecimal(mGui.numberArea.getText().toString());
             MathOperations.elementsToCount.add(decimal);
             GUI.numberArea.setText("");
         }
     }
+*/
 
-    private void insertAssistant(JButton button){
-        if(mCounter == 3 || cCounter == 3 || xCounter == 3 || iCounter == 3){
-            button.setEnabled(false);
-
-        } else if(vCounter == 1 || lCounter == 1 || dCounter == 1){
-            button.setEnabled(false);
-        }
-
-        for(Map.Entry entry : buttonMap.entrySet()) {
-            if((Integer)entry.getValue() > buttonMap.get(button)){
-                switch(buttonMap.get(button)){
-                    case 1:
-                        if(iCounter < 2){
-                            if((Integer)entry.getValue() > 10){
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        } else {
-                            if ((Integer) entry.getValue() > buttonMap.get(button)) {
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        }
-                        break;
-                    case 10:
-                        if(xCounter < 2){
-                            if((Integer)entry.getValue() > 100){
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        } else {
-                            if ((Integer) entry.getValue() > buttonMap.get(button)) {
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        }
-                        break;
-                    case 100:
-                        break;
-                    case 5:
-                    case 50:
-                    case 500:
-                        if ((Integer) entry.getValue() > buttonMap.get(button)) {
-                            JButton disable = (JButton) entry.getKey();
-                            disable.setEnabled(false);
-                        }
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-        }
-    }
 }

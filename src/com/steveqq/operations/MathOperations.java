@@ -6,16 +6,32 @@ import java.util.IllegalFormatCodePointException;
 /**
  * Created by SteveQ on 2016-08-17.
  */
-public final class MathOperations {
-    public static ArrayList<Integer> elementsToCount = new ArrayList<Integer>();;
-    public static ArrayList<Character> operationSymbols = new ArrayList<Character>();;
+public class MathOperations {
+    private ArrayList<Integer> elementsToCount = new ArrayList<>();
+    private ArrayList<Character> operationSymbols = new ArrayList<>();
 
-    public static void clearOperationData(){
+    public ArrayList<Integer> getElementsToCount() {
+        return elementsToCount;
+    }
+
+    public void addElementsToCount(Integer element) {
+        this.elementsToCount.add(element);
+    }
+
+    public ArrayList<Character> getOperationSymbols() {
+        return operationSymbols;
+    }
+
+    public void addOperationSymbols(Character operationSymbol) {
+        this.operationSymbols.add(operationSymbol);
+    }
+
+    public void clearOperationData(){
         elementsToCount.clear();
         operationSymbols.clear();
     }
 
-    public static Integer doMath() throws IllegalArgumentException{
+    public Integer doMath() throws IllegalArgumentException{
         Integer result = elementsToCount.get(0);
         for(int i=1; i < elementsToCount.size(); i++) {
             Character curOeration = operationSymbols.get(i-1);

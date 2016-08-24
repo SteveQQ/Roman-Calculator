@@ -1,3 +1,4 @@
+import com.steveqq.gui.ButtonClicker;
 import com.steveqq.gui.GUI;
 
 /**
@@ -5,6 +6,8 @@ import com.steveqq.gui.GUI;
  */
 public class RomanCalculatorMain {
     public static void main(String[] args){
-        new GUI().createGUI();
+        GUI gui = new GUI();
+        new ButtonClicker(gui);
+        gui.createGUI();
     }
 }
