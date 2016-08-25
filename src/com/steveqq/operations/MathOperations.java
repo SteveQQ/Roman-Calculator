@@ -10,6 +10,7 @@ public class MathOperations {
     private ArrayList<Integer> elementsToCount = new ArrayList<>();
     private ArrayList<Character> operationSymbols = new ArrayList<>();
 
+    //-----GETTERS & SETTERS-----//
     public ArrayList<Integer> getElementsToCount() {
         return elementsToCount;
     }
@@ -25,6 +26,7 @@ public class MathOperations {
     public void addOperationSymbols(Character operationSymbol) {
         this.operationSymbols.add(operationSymbol);
     }
+    //-----GETTERS & SETTERS-----//
 
     public void clearOperationData(){
         elementsToCount.clear();

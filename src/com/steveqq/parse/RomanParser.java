@@ -35,34 +35,30 @@ public class RomanParser {
         toRomanMap.put(1, "I");
     }
 
-    public ArrayList<Character> createCharArrayList(char[] charArray){
-        ArrayList<Character> result = new ArrayList<Character>();
-        for(Character character : charArray) {
+    private ArrayList<Character> createCharArrayList(String string){
+        ArrayList<Character> result = new ArrayList<>();
+        for(Character character : string.toCharArray()) {
             result.add(character);
         }
         return result;
     }
 
-    public Map<Character, Integer> getRomanValues() {
-        return romanValues;
-    }
-
     public ArrayList<Integer> mapRomanToDecimal(ArrayList<Character> charArrList){
-        ArrayList<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> result = new ArrayList<>();
         for(Character character : charArrList){
-            result.add(getRomanValues().get(character));
+            result.add(romanValues.get(character));
         }
         return result;
     }
 
     public Integer romanToDecimal(String romanNumber){
-        char[] romanCharNumber = romanNumber.toCharArray();
-        ArrayList<Character> romanCharArrayList = createCharArrayList(romanCharNumber);
+        ArrayList<Character> romanCharArrayList = createCharArrayList(romanNumber);
         ArrayList<Integer> romanIntArrayList = mapRomanToDecimal(romanCharArrayList);
-        Integer lastNumberInIntArrayList = romanIntArrayList.size() - 1;
-        Integer result = romanIntArrayList.get(lastNumberInIntArrayList);
-        for(int i = lastNumberInIntArrayList; i >= 1; i--) {
-            if (romanIntArrayList.get(i-1) == romanIntArrayList.get(i)){
+
+        Integer result = romanIntArrayList.get(romanIntArrayList.size() - 1);
+
+        for(int i = romanIntArrayList.size() - 1; i >= 1; i--) {
+            if (romanIntArrayList.get(i-1).equals(romanIntArrayList.get(i))){
                 result = result + romanIntArrayList.get(i-1);
             } else if(result > romanIntArrayList.get(i-1)){
                 result = result - romanIntArrayList.get(i-1);
@@ -84,7 +80,7 @@ public class RomanParser {
                 division = number / (Integer) entry.getKey();
                 if (division >= 1) {
                     for (int i = 0; i < division; i++) {
-                        result = toRomanMap.get((Integer) entry.getKey()) + result;
+                        result = toRomanMap.get(entry.getKey()) + result;
                     }
                     result = result + decimalToRoman(number % (Integer) entry.getKey());
                     break;

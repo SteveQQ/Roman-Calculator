@@ -11,9 +11,5 @@ import java.util.Map;
 public class GUITester {
     public static void main(String[] args){
         GUI gui = new GUI();
-        gui.createButtonMap();
-        for(Map.Entry entry : gui.buttonMap.entrySet()){
-            System.out.println(entry.getValue());
-        }
     }
 }
