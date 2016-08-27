@@ -12,19 +12,21 @@ import java.util.TreeMap;
  * Created by SteveQ on 2016-08-15.
  */
 public class GUI {
-    protected static JFrame frame;
+    protected static JFrame frame, historyFrame;
     private JPanel textAreaWrapPanel, gridWrapPanel, eqWrapPanel, cleanWrapPanel, southButtonsWrapper;
-    protected JTextArea numberArea;
+    protected JTextArea numberArea, historyTextArea;
     protected JButton iButton, vButton, xButton, lButton, cButton, dButton, mButton,
                     plusButton, subButton, mulButton, divButton, backButton, eqButton, cleanButton;
     private JMenuBar menuBar;
     private JMenu viewMenu;
+    private JMenuItem historyItem;
     private ButtonClicker buttonClicker;
     private ArrayList<JButton> buttonList;
 
     public GUI(){
 
         frame = new JFrame("Roman Calculator");
+        historyFrame = new JFrame("History");
         buttonList = new ArrayList<>();
 
         //-----CREATING PANELS-----//
@@ -90,9 +92,12 @@ public class GUI {
         //-----CREATING MENU BAR-----//
         menuBar = new JMenuBar();
         viewMenu = new JMenu("View");
+        historyItem = new JMenuItem("History");
+        historyItem.addActionListener(buttonClicker.historyClicker);
         //-----CREATING MENU BAR-----//
 
         numberArea = new JTextArea();
+        historyTextArea = new JTextArea();
 
     }
 
@@ -136,6 +141,7 @@ public class GUI {
         southButtonsWrapper.add(cleanWrapPanel);
         frame.add(BorderLayout.SOUTH, southButtonsWrapper);
 
+        viewMenu.add(historyItem);
         menuBar.add(viewMenu);
         frame.setJMenuBar(menuBar);
         textAreaWrapPanel.add(numberArea);
@@ -150,6 +156,16 @@ public class GUI {
         frame.setVisible(true);
     }
 
+    public void createHistoryGUI(){
+        historyTextArea.setEditable(false);
+
+        historyFrame.getContentPane().add(BorderLayout.CENTER, historyTextArea);
+        historyFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        historyFrame.setSize(300, 200);
+        historyFrame.setResizable(false);
+        historyFrame.setLocationRelativeTo(null);
+        historyFrame.setVisible(true);
+    }
     public ArrayList<JButton> getButtonList() {
         return buttonList;
     }

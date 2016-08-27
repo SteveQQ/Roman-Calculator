@@ -6,6 +6,7 @@ import com.steveqq.parse.RomanParser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.PaintEvent;
 import java.util.*;
 
 /**
@@ -45,6 +46,7 @@ public class ButtonClicker {
     protected divClick divClicker;
     protected eqClick eqClicker;
     protected cleanClick cleanClicker;
+    protected historyClick historyClicker;
     //-----ACTION LISTENERS FOR BUTTONS-----//
 
     public ButtonClicker(GUI gui){
@@ -68,6 +70,7 @@ public class ButtonClicker {
         divClicker = new divClick();
         eqClicker = new eqClick();
         cleanClicker = new cleanClick();
+        historyClicker = new historyClick();
         //-----CREATE ACTION LISTENERS-----//
 
     }
@@ -187,7 +190,9 @@ public class ButtonClicker {
             registerOperationData();
             if(mMathOperations.getElementsToCount().size() >= 2 && mMathOperations.getOperationSymbols().size() >= 1) {
                 try {
-                    mGui.numberArea.setText(mRomanParser.decimalToRoman(mMathOperations.doMath()));
+                    String result = mRomanParser.decimalToRoman(mMathOperations.doMath());
+                    mGui.numberArea.setText(result);
+                    keepInMemory(mMathOperations.getElementsToCount(), mMathOperations.getOperationSymbols(), result);
                     mMathOperations.clearOperationData();
                 } catch(IllegalArgumentException iae){
                     JOptionPane.showMessageDialog(GUI.frame,
@@ -198,6 +203,13 @@ public class ButtonClicker {
             }
             mMathOperations.clearOperationData();
             resetCalculator();
+        }
+    }
+
+    class historyClick implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ev){
+            mGui.createHistoryGUI();
         }
     }
 
@@ -332,6 +344,17 @@ public class ButtonClicker {
                         break;
 
                 }
+            }
+        }
+    }
+
+    private void keepInMemory(ArrayList<Integer> numbers, ArrayList<Character> symbols, String result){
+        for(int i = 0; i < numbers.size(); i++){
+            mGui.historyTextArea.append(mRomanParser.decimalToRoman(numbers.get(i)));
+            if(i < symbols.size()){
+                mGui.historyTextArea.append(symbols.get(i).toString());
+            } else {
+                mGui.historyTextArea.append("=" + result + "\n");
             }
         }
     }
