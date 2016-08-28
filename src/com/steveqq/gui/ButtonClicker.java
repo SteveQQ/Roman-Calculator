@@ -196,7 +196,7 @@ public class ButtonClicker {
                     mMathOperations.clearOperationData();
                 } catch(IllegalArgumentException iae){
                     JOptionPane.showMessageDialog(GUI.frame,
-                            "Result would be < 1, change second argument",
+                            iae.getMessage(),
                             "WARNING",
                             JOptionPane.WARNING_MESSAGE);
                 }
@@ -288,62 +288,88 @@ public class ButtonClicker {
 
     private void insertAssistant(JButton button){
         Integer buttonValue = buttonMap.get(button);
-        if(mCounter == 3 || cCounter == 3 || xCounter == 3 || iCounter == 3){
-            button.setEnabled(false);
 
-        } else if(vCounter == 1 || lCounter == 1 || dCounter == 1){
-            button.setEnabled(false);
-        }
-
-        for(Map.Entry entry : buttonMap.entrySet()) {
-            if((Integer)entry.getValue() > buttonValue){
-                switch(buttonValue){
+        switch(buttonValue){
+            case 1:
+                switch (iCounter) {
                     case 1:
-                        if(iCounter < 2){
-                            if((Integer)entry.getValue() > 10){
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        } else {
-                            if ((Integer) entry.getValue() > buttonValue) {
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        }
+                        disableAbove(10);
                         break;
-                    case 10:
-                        if(xCounter < 2){
-                            if((Integer)entry.getValue() > 100){
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        } else {
-                            if ((Integer) entry.getValue() > buttonValue) {
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        }
-                        break;
-                    case 100:
-                        if(cCounter >= 2){
-                            if ((Integer) entry.getValue() > buttonValue) {
-                                JButton disable = (JButton) entry.getKey();
-                                disable.setEnabled(false);
-                            }
-                        }
-                        break;
-                    case 5:
-                    case 50:
-                    case 500:
-                        if ((Integer) entry.getValue() > buttonValue) {
-                            JButton disable = (JButton) entry.getKey();
-                            disable.setEnabled(false);
-                        }
+                    case 2:
+                        disableAbove(buttonValue);
                         break;
                     default:
+                        button.setEnabled(false);
                         break;
-
                 }
+                break;
+            case 10:
+                switch (xCounter) {
+                    case 1:
+                        if(cCounter == 0) {
+                            disableAbove(100);
+                            break;
+                        }
+                    case 2:
+                        disableAbove(buttonValue);
+                        break;
+                    default:
+                        button.setEnabled(false);
+                        break;
+                }
+                if(iCounter > 0){
+                    disableAbove(0);
+                }
+                break;
+            case 100:
+                switch (cCounter) {
+                    case 1:
+                        if(mCounter == 0) {
+                            disableAbove(1000);
+                            break;
+                        }
+                    case 2:
+                        disableAbove(buttonValue);
+                        break;
+                    default:
+                        button.setEnabled(false);
+                        break;
+                }
+                if(xCounter > 0){
+                    disableAbove(5);
+                }
+                break;
+            case 1000:
+                switch (mCounter) {
+                    case 1:
+                    case 2:
+                        break;
+                    default:
+                        button.setEnabled(false);
+                        break;
+                }
+                if(cCounter > 0){
+                    disableAbove(50);
+                }
+                break;
+            case 5:
+            case 50:
+            case 500:
+                disableAbove(buttonValue);
+                button.setEnabled(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void disableAbove(int value){
+        for(Map.Entry entry : buttonMap.entrySet()) {
+            JButton button = (JButton) entry.getKey();
+            if ((Integer) entry.getValue() > value) {
+                button.setEnabled(false);
+            } else {
+                button.setEnabled(true);
             }
         }
     }

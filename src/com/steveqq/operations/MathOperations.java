@@ -42,14 +42,18 @@ public class MathOperations {
                     result = result + elementsToCount.get(i);
                     break;
                 case '-':
-                    result = result - elementsToCount.get(i);
+                    if(result < elementsToCount.get(i)){
+                        throw new IllegalArgumentException("Result would be negative, change arguments");
+                    } else {
+                        result = result - elementsToCount.get(i);
+                    }
                     break;
                 case '*':
                     result = result * elementsToCount.get(i);
                     break;
                 case '/':
                     if(result < elementsToCount.get(i)){
-                        throw new IllegalArgumentException();
+                        throw new IllegalArgumentException("Result would be < 1, change arguments");
                     } else {
                         result = result / elementsToCount.get(i);
                     }
